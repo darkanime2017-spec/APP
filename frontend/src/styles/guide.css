@@ -1,0 +1,35 @@
+.guide-panel {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #f8fafc;
+  border: 1px dashed #e2e8f0;
+  text-align: center;
+}
+
+.download-guide-button {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.download-guide-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.download-guide-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

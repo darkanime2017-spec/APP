@@ -1,0 +1,127 @@
+/* Center the login card and give the page a subtle gradient background */
+.min-h-screen.bg-gray-50 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: radial-gradient(circle at top left, #eef2ff 0%, #f9fafb 45%, #f3f4f6 100%);
+}
+
+.login-container {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 460px;
+  padding: 2.25rem 2.5rem;
+  border-radius: 1rem;
+  text-align: left;
+  box-shadow: 0 22px 45px rgba(15, 23, 42, 0.18);
+  border: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.login-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1.4rem;
+  color: #111827;
+  text-align: center;
+}
+
+.login-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 0.45rem;
+  text-align: left;
+}
+
+.login-input {
+  width: 95%;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.50rem;
+  font-size: 0.95rem;
+  background-color: transparent;
+  transition: border-color 0.2s;
+  color: #1f2937;
+  margin-bottom: 1.5rem;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.login-button {
+  width: auto;
+  min-width: 140px;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem auto 0;
+}
+
+.login-button:hover {
+  background-color: #4338ca;
+}
+
+.login-button:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.login-error {
+  color: #ef4444;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.autocomplete-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 20;
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0.25rem 0;
+}
+
+.autocomplete-item {
+  padding: 0.55rem 0.9rem;
+  font-size: 0.95rem;
+  color: #111827;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.autocomplete-item:hover {
+  background-color: #f3f4f6;
+}
+
+.loading-spinner {
+  width: 18px;
+  height: 18px;
+}

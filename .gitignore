@@ -1,0 +1,35 @@
+# =====================
+# Node
+# =====================
+node_modules/
+npm-debug.log*
+yarn.lock
+
+# =====================
+# Build outputs
+# =====================
+dist/
+build/
+
+# =====================
+# OS
+# =====================
+.DS_Store
+
+# =====================
+# Python
+# =====================
+venv/
+__pycache__/
+*.pyc
+
+# =====================
+# Secrets (VERY IMPORTANT)
+# =====================
+.env
+service_account_key.json
+
+# Secrets
+.env
+backend/secrets/
+backend/service_account_key.json
