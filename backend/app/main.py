@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -12,7 +12,7 @@ from app.services.registration_service import RegistrationService
 import datetime
 from app.crud import CRUD
 
-# Global instances of services (used locally; endpoints module has its own instances)
+# Global instances of services
 data_service_instance = DataService(google_drive_service)
 registration_service_instance = RegistrationService(google_drive_service, data_service_instance)
 
@@ -28,7 +28,6 @@ async def lifespan(app: FastAPI):
     print("Metadata loaded from Google Drive.")
 
     # Create database tables (for development/initial setup)
-    # In a production environment, you would use Alembic for migrations.
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     print("Database tables created/checked.")
@@ -64,7 +63,9 @@ app = FastAPI(
 # CORS settings for frontend
 origins = [
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "http://localhost:5173",  # Vite default port
+    "https://frontend-9111kwo7y-tareks-projects-e887ddd8.vercel.app",  # Your Vercel URL
+    "https://*.vercel.app",  # All Vercel preview URLs
 ]
 
 app.add_middleware(
@@ -81,6 +82,12 @@ app.include_router(router, prefix="/api")
 async def root():
     return {"message": "Welcome to the NLP TP Platform API"}
 
-# Make service instances available via FastAPI's dependency injection system if needed elsewhere
+@app.get("/healthz", status_code=status.HTTP_200_OK)
+@app.head("/healthz", status_code=status.HTTP_200_OK)
+async def health_check():
+    """Health check endpoint for load balancers and monitoring."""
+    return {"status": "healthy"}
+
+# Make service instances available via FastAPI's dependency injection system
 app.dependency_overrides[DataService] = lambda: data_service_instance
 app.dependency_overrides[RegistrationService] = lambda: registration_service_instance
