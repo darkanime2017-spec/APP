@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 # Example: FRONTEND_ORIGINS="https://front-8w36ml0b7-tareks-projects-e887ddd8.vercel.app"
 origins_env = os.getenv(
     "FRONTEND_ORIGINS", 
-    "https://front-8w36ml0b7-tareks-projects-e887ddd8.vercel.app"
+    "https://test-nlp-lol.vercel.app/login"
 )
 CORS_ORIGINS = [u.strip() for u in origins_env.split(",") if u.strip()]
 
