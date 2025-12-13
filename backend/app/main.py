@@ -6,7 +6,6 @@ from pathlib import Path
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Response, status
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -30,21 +29,20 @@ logger = logging.getLogger(__name__)
 
 # ----- CORS origins from env (comma-separated) -----
 # Default now points to your deployed frontend
-# Example: FRONTEND_ORIGINS="https://front-8w36ml0b7-tareks-projects-e887ddd8.vercel.app"
+# Example: FRONTEND_ORIGINS="https://test-nlp-lol.vercel.app"
 origins_env = os.getenv(
     "FRONTEND_ORIGINS",
     "https://test-nlp-lol.vercel.app"
 )
-
 CORS_ORIGINS = [o.strip() for o in origins_env.split(",") if o.strip()]
 
+# ----- lifespan: app startup/shutdown tasks -----
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Application startup...")
 
     # Initialize DataService metadata (Drive)
     from app.api import endpoints as api_endpoints
-
     await data_service_instance.load_metadata()
     await api_endpoints.data_service.load_metadata()
     logger.info("Metadata loaded from Google Drive.")
@@ -110,14 +108,6 @@ async def root_head():
 @app.get("/", include_in_schema=False)
 async def root():
     return {"message": "Welcome to the NLP TP Platform API"}
-
-# ----- mount static React build if present ----- 
-static_dir = Path(__file__).resolve().parent / "static"
-if static_dir.exists():
-    app.mount("/", StaticFiles(directory=str(static_dir), html=True), name="static")
-    logger.info(f"Serving frontend static files from: {static_dir}")
-else:
-    logger.info(f"No static frontend found at {static_dir} — API only.")
 
 # ----- dependency overrides so endpoints can use the same instances ----- 
 app.dependency_overrides[DataService] = lambda: data_service_instance
