@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 from uuid import UUID
+from datetime import datetime
 
 
 class RegisterRequest(BaseModel):
