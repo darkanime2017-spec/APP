@@ -1,13 +1,14 @@
-pip install --upgrade fastapi
-pip install --upgrade "uvicorn[standard]"
-pip install --upgrade "sqlalchemy[asyncio]"
-pip install --upgrade asyncpg
-pip install --upgrade pydantic-settings
-pip install --upgrade "python-jose[cryptography]"
-pip install --upgrade "passlib[bcrypt]"
-pip install --upgrade firebase-admin
-pip install --upgrade google-api-python-client
-pip install --upgrade google-auth-httplib2
-pip install --upgrade google-auth-oauthlib
-pip install --upgrade python-multipart
-pip install --upgrade sqlmodel
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]
+asyncpg
+pydantic-settings
+python-jose[cryptography]
+passlib[bcrypt]
+firebase-admin
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+python-multipart
+sqlmodel
+pydantic[email]
