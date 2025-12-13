@@ -29,8 +29,12 @@ logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)  # reduce SQLAl
 logger = logging.getLogger(__name__)
 
 # ----- CORS origins from env (comma-separated) -----
-# Example: FRONTEND_ORIGINS="http://localhost:3000,https://my-frontend.onrender.com"
-origins_env = os.getenv("FRONTEND_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000")
+# Default now points to your deployed frontend
+# Example: FRONTEND_ORIGINS="https://front-8w36ml0b7-tareks-projects-e887ddd8.vercel.app"
+origins_env = os.getenv(
+    "FRONTEND_ORIGINS", 
+    "https://front-8w36ml0b7-tareks-projects-e887ddd8.vercel.app"
+)
 CORS_ORIGINS = [u.strip() for u in origins_env.split(",") if u.strip()]
 
 @asynccontextmanager
@@ -41,7 +45,6 @@ async def lifespan(app: FastAPI):
     from app.api import endpoints as api_endpoints
 
     await data_service_instance.load_metadata()
-    # endpoints module has its own data_service instance; ensure it's loaded too
     await api_endpoints.data_service.load_metadata()
     logger.info("Metadata loaded from Google Drive.")
 
@@ -108,7 +111,6 @@ async def root():
     return {"message": "Welcome to the NLP TP Platform API"}
 
 # ----- mount static React build if present ----- 
-# Place your React build files (contents of frontend/dist) into backend/app/static
 static_dir = Path(__file__).resolve().parent / "static"
 if static_dir.exists():
     app.mount("/", StaticFiles(directory=str(static_dir), html=True), name="static")
@@ -119,7 +121,6 @@ else:
 # ----- dependency overrides so endpoints can use the same instances ----- 
 app.dependency_overrides[DataService] = lambda: data_service_instance
 app.dependency_overrides[RegistrationService] = lambda: registration_service_instance
-
 
 # ----- run with uvicorn when executed directly (helps local dev) ----- 
 if __name__ == "__main__":
