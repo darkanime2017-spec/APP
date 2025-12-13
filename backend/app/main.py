@@ -32,10 +32,11 @@ logger = logging.getLogger(__name__)
 # Default now points to your deployed frontend
 # Example: FRONTEND_ORIGINS="https://front-8w36ml0b7-tareks-projects-e887ddd8.vercel.app"
 origins_env = os.getenv(
-    "FRONTEND_ORIGINS", 
+    "FRONTEND_ORIGINS",
     "https://test-nlp-lol.vercel.app"
 )
-CORS_ORIGINS = [u.strip() for u in origins_env.split(",") if u.strip()]
+
+CORS_ORIGINS = [o.strip() for o in origins_env.split(",") if o.strip()]
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
