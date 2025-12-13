@@ -1,28 +1,18 @@
-"""
-Application Configuration Management.
-
-This module uses Pydantic's BaseSettings to load and validate configuration
-from environment variables. It centralizes all configuration parameters,
-making them easily accessible throughout the application.
-"""
-
 from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 class Settings(BaseSettings):
-    """Loads environment variables for the application."""
-
-    # Database settings - will be constructed if not provided directly
+    # Database settings
     DATABASE_URL: str | None = None
     POSTGRES_USER: str | None = None
     POSTGRES_PASSWORD: str | None = None
-    RAILWAY_TCP_PROXY_DOMAIN: str | None = None # Public Host
-    RAILWAY_TCP_PROXY_PORT: int | None = None   # Public Port
+    RAILWAY_TCP_PROXY_DOMAIN: str | None = None
+    RAILWAY_TCP_PROXY_PORT: int | None = None
     POSTGRES_DB: str | None = None
 
     # Other application settings
-    GOOGLE_CREDENTIALS_PATH: str
+    GOOGLE_CREDENTIALS_PATH: str | None = None  # optional now
+    GOOGLE_APPLICATION_CREDENTIALS_B64: str | None = None  # add this
     FIREBASE_CRED_PATH: str
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
