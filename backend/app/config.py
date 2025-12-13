@@ -27,7 +27,7 @@ class Settings(BaseSettings):
 
     @model_validator(mode='after')
     def assemble_db_connection(self) -> "Settings":
-        # 1) If DATABASE_URL not provided, assemble from individual vars
+        # 1) Build DATABASE_URL if missing
         if self.DATABASE_URL is None:
             if all([
                 self.POSTGRES_USER,
@@ -44,31 +44,24 @@ class Settings(BaseSettings):
         # 2) If GOOGLE_APPLICATION_CREDENTIALS missing but B64 provided -> write temp file
         if not self.GOOGLE_APPLICATION_CREDENTIALS and self.GOOGLE_APPLICATION_CREDENTIALS_B64:
             try:
-                # Decode and validate JSON
                 decoded = base64.b64decode(self.GOOGLE_APPLICATION_CREDENTIALS_B64).decode("utf-8")
-                # optional: ensure it is valid JSON
+                # validate JSON
                 json.loads(decoded)
 
-                # write to a temp file (unique per process)
                 tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
                 tmp.write(decoded.encode("utf-8"))
                 tmp.flush()
                 tmp.close()
 
-                # set env var so libraries depending on file path will find it
                 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = tmp.name
-
-                # reflect into settings object
                 self.GOOGLE_APPLICATION_CREDENTIALS = tmp.name
             except Exception as e:
-                # If decoding fails, raise a clear error so startup fails with helpful message
                 raise RuntimeError("Failed to decode GOOGLE_APPLICATION_CREDENTIALS_B64: " + str(e)) from e
 
         return self
 
-    # Load from .env by default (if present). Ignore extra env vars.
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
-# instantiate settings (will run the model_validator above)
+# instantiate settings (runs validator above)
 settings = Settings()
